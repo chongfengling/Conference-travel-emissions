@@ -1,5 +1,6 @@
 from typing import Dict, List, Tuple
 from pytest import raises
+import math
 
 class City:
     def __init__(self, city, country, attendees, latitude, longitude) -> None:
@@ -30,10 +31,20 @@ class City:
         self.longitude = longitude
         
     def distance_to(self, other: 'City') -> float:
-        raise NotImplementedError
+        R = 6371 # approximate radius of the Earth in km
+        return float(2 * R * math.asin(math.sqrt((math.sin((other.latitude - self.latitude)/2))**2 + math.cos(self.latitude) * math.cos(other.latitude) * (math.sin((other.longitude - self.longitude)/2))**2))) # Haversine formula (km)
+
 
     def co2_to(self, other: 'City') -> float:
-        raise NotImplementedError
+        distance = self.distance_to(other) # distant to other city from current city
+        cost_cof = 0
+        if 0 <= distance <= 1000:
+            cost_cof = 200
+        elif distance <= 8000:
+            cost_cof = 250
+        else:
+            cost_cof = 300
+        return float(cost_cof * distance * self.attendees) # total emissions (kg) for researchers from a certain City to travel to a conference held in another City - the host city
 
 class CityCollection:
     ...
@@ -65,4 +76,6 @@ class CityCollection:
     def plot_top_emitters(self, city: City, n: int, save: bool):
         raise NotImplementedError
 
-# zurich = City(2, 'Switzerland', 52, 47.22, 8.33)
+a = City('a', 'Switzerland', 1, 1.1, 1.0)
+b = City('b', 'Switzerland', 1, 1.0, 1.0)
+print(a.distance_to(b))
