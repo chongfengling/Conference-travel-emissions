@@ -47,7 +47,9 @@ class City:
         return float(cost_cof * distance * self.attendees) # total emissions (kg) for researchers from a certain City to travel to a conference held in another City - the host city
 
 class CityCollection:
-    ...
+    
+    def __init__(self, list_of_cities) -> None:
+        self.cities = list_of_cities
 
     def countries(self) -> List[str]:
         raise NotImplementedError
