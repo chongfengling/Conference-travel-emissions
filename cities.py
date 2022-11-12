@@ -40,11 +40,11 @@ class City:
         distance = self.distance_to(other) # distant to other city from current city
         cost_cof = 0
         if 0 <= distance <= 1000:
-            cost_cof = 200
+            cost_cof = 200.0
         elif distance <= 8000:
-            cost_cof = 250
+            cost_cof = 250.0
         else:
-            cost_cof = 300
+            cost_cof = 300.0
         return float(cost_cof * distance * self.attendees) # total emissions (kg) for researchers from a certain City to travel to a conference held in another City - the host city
 
 class CityCollection:
@@ -135,7 +135,7 @@ class CityCollection:
         plt.title(f'Total emissions from each country (top {n})')
         if save:
             host_name = city.city.replace(' ', '_')
-            plt.savefig(f'{host_name}.png')
+            plt.savefig(f'./{host_name.lower()}.png')
         else:
             plt.show()
 
