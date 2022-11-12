@@ -64,24 +64,51 @@ class CityCollection:
         return total_attendees
 
     def total_distance_travel_to(self, city: City) -> float:
-        raise NotImplementedError
+        # returns the total distance traveled by all attendees
+        total_distance = 0.0
+        for other_city in self.cities:
+            total_distance += other_city.distance_to(city) * other_city.attendees
+        return total_distance
 
     def travel_by_country(self, city: City) -> Dict[str, float]:
-        raise NotImplementedError
+        # returns a dictionary mapping the attendees' country to the distance traveled by all attendees from that country to the host city
+        travel_by_country = {}
+        for other_city in self.cities:
+            country = other_city.country
+            distance = other_city.distance_to(city) * other_city.attendees
+            if country not in travel_by_country:
+                travel_by_country[country] = distance
+                continue
+            travel_by_country[country] += distance
+        return travel_by_country
 
     def total_co2(self, city: City) -> float:
-        raise NotImplementedError
+        # returns the total CO2 emitted by all attendees if the conference were held in Zurich
+        total_co2 = 0.0
+        for other_city in self.cities:
+            total_co2 += other_city.co2_to(city)
+        return total_co2
 
     def co2_by_country(self, city: City) -> Dict[str, float]:
-        raise NotImplementedError
+        # returns a dictionary mapping the attendees' country to the the C02 emitted by all attendees from that country to the host city
+        co2_by_country = {}
+        for other_city in self.cities:
+            country = other_city.country
+            co2 = other_city.co2_to(city)
+            if country not in co2_by_country:
+                co2_by_country[country] = co2
+                continue
+            co2_by_country[country] += co2
+        return co2_by_country
 
     def summary(self, city: City):
-        raise NotImplementedError
+        # print out the information
+        print(f'Host city: {city.city} ({city.country})')
+        print(f'Total CO2: {int(self.total_co2(city)/1000)} tonnes')
+        print(f'Total attendees traveling to {city.city} from {len(self.cities)} different cities: {self.total_attendees()}')
 
     def sorted_by_emissions(self) -> List[Tuple[str, float]]:
         raise NotImplementedError
 
     def plot_top_emitters(self, city: City, n: int, save: bool):
         raise NotImplementedError
-
-# zurich = City(2, 'Switzerland', 52, 47.22, 8.33)
