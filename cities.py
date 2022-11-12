@@ -33,7 +33,7 @@ class City:
         
     def distance_to(self, other: 'City') -> float:
         R = 6371 # approximate radius of the Earth in km
-        return float(2 * R * math.asin(math.sqrt((math.sin((other.latitude - self.latitude)/2))**2 + math.cos(self.latitude) * math.cos(other.latitude) * (math.sin((other.longitude - self.longitude)/2))**2))) # Haversine formula (km)
+        return float(2 * R * math.asin(math.sqrt((math.sin((math.radians(other.latitude) - math.radians(self.latitude))/2))**2 + math.cos(math.radians(self.latitude)) * math.cos(math.radians(other.latitude)) * (math.sin((math.radians(other.longitude) - math.radians(self.longitude))/2))**2))) # Haversine formula (km)
 
 
     def co2_to(self, other: 'City') -> float:
@@ -106,7 +106,7 @@ class CityCollection:
         # print out the information
         print(f'Host city: {city.city} ({city.country})')
         print(f'Total CO2: {int(self.total_co2(city)/1000)} tonnes')
-        print(f'Total attendees traveling to {city.city} from {len(self.cities)} different cities: {self.total_attendees()}')
+        print(f'Total attendees travelling to {city.city} from {len(self.cities)} different cities: {self.total_attendees()}')
 
     def sorted_by_emissions(self) -> List[Tuple[str, float]]:
         # returns a sorted list of city names and CO2 emissions
