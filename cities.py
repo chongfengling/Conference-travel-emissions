@@ -1,6 +1,7 @@
 from typing import Dict, List, Tuple
 from pytest import raises
 import math
+import matplotlib.pyplot as plt
 
 class City:
     def __init__(self, city, country, attendees, latitude, longitude) -> None:
@@ -115,7 +116,47 @@ class CityCollection:
         sorted_res.sort(key = lambda x:x[1])
         return sorted_res
         
+    def plot_top_emitters(self, city: City, n: int = 0, save: bool = False):
+        # Plot n countries with the most emissions and summed emissions for the other countries with label “All other countries”. If save is True, save the plot to a file.
+        res_co2_by_country = self.co2_by_country(city)
+        sorted_res = sorted(res_co2_by_country.items(), key=lambda x:x[1], reverse=True)
+
+        countries, y, emissions_other= [], [], 0
+
+        [[countries.append(country), y.append(emissions/1000)] for (country, emissions) in sorted_res[:n]]
+        for (country, emissions) in sorted_res[n:]:
+            emissions_other += emissions
+        countries.append('Everywhere else')
+        y.append(emissions_other/1000)
+
+        plt.bar(countries, y)
+        plt.ylabel('Total emissions (tonnes CO2)')
+        plt.xticks(rotation=20, ha='right')
+        plt.title(f'Total emissions from each country (top {n})')
+        if save:
+            host_name = city.city.replace(' ', '_')
+            plt.savefig(f'{host_name}.png')
+        else:
+            plt.show()
 
 
-    def plot_top_emitters(self, city: City, n: int, save: bool):
-        raise NotImplementedError
+# import csv
+# from pathlib import Path
+
+
+# def read_attendees_file(filepath: Path) -> CityCollection:
+#     list_of_cities = []
+#     with open(filepath, mode ='r') as f:
+#         data = csv.reader(f)
+#         next(data)
+#         for row in data:
+#             attendees, country, city, latitude, longitude, distance = int(row[0]), str(row[1]), str(row[3]), float(row[4]), float(row[5]), row[6] # type!!!
+#             city = City(city, country, attendees, latitude, longitude)
+#             list_of_cities.append(city)
+#     return CityCollection(list_of_cities)
+
+# conference_city = City('Buenos Aires', 'Argentina', 0, -34.6075616, -58.437076)
+# from pathlib import Path
+# csv_attendees = Path('attendee_locations.csv')
+# cities = read_attendees_file(csv_attendees)
+# cities.plot_top_emitters(conference_city, 7)
