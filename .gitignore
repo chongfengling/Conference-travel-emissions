@@ -5,3 +5,5 @@ __pycache__/cities.cpython-39.pyc
 .gitignore
 .gitignore
 __pycache__/test_cities.cpython-39-pytest-7.1.1.pyc
+.coverage
+tmp/__pycache__/test_cities.cpython-39-pytest-7.1.1.pyc

@@ -15,7 +15,7 @@ class City:
         if not isinstance(attendees, int): # type check
             raise TypeError('The type of attendees should be a Int')
         if attendees < 0: # value check
-            raise ValueError('attendees should be a positive number')
+            raise ValueError('attendees should be a non-negative number')
         self.attendees = attendees
 
         if not isinstance(latitude, float): # type check
@@ -76,6 +76,4 @@ class CityCollection:
     def plot_top_emitters(self, city: City, n: int, save: bool):
         raise NotImplementedError
 
-a = City('a', 'Switzerland', 1, 1.1, 1.0)
-b = City('b', 'Switzerland', 1, 1.0, 1.0)
-print(a.distance_to(b))
+# zurich = City(2, 'Switzerland', 52, 47.22, 8.33)
