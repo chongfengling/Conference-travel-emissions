@@ -39,3 +39,15 @@ def test_attributes_of_City():
         # longitude should be restricted to the -180 to 180
         City('Zurich', 'Switzerland', 1, 47.22, 181.0)
         City('Zurich', 'Switzerland', 1, 47.22, -181.0)
+
+city_1 = City('Zurich', 'Switzerland', 4, 47.22, 8.33)
+city_2 = City('San Francisco', 'United States', 0, 37.7792808, -122.4192363)
+city_collection = CityCollection([city_1, city_2])
+
+def test_CityCollection_countries():
+    # test method city_collection.countries()
+    assert city_collection.countries() == ['Switzerland', 'United States']
+
+def test_CityCollection_total_attendees():
+    # test method city_collection.total_attendees()
+    assert city_collection.total_attendees() == int(4)

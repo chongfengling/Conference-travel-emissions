@@ -47,15 +47,21 @@ class City:
         return float(cost_cof * distance * self.attendees) # total emissions (kg) for researchers from a certain City to travel to a conference held in another City - the host city
 
 class CityCollection:
-    
+
     def __init__(self, list_of_cities) -> None:
         self.cities = list_of_cities
 
     def countries(self) -> List[str]:
-        raise NotImplementedError
+        list_of_country = []
+        for city in self.cities:
+            list_of_country.append(city.country)
+        return list(set(list_of_country))
 
     def total_attendees(self) -> int:
-        raise NotImplementedError
+        total_attendees = 0
+        for city in self.cities:
+            total_attendees += city.attendees
+        return total_attendees
 
     def total_distance_travel_to(self, city: City) -> float:
         raise NotImplementedError
