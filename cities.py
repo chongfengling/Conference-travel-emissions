@@ -19,19 +19,20 @@ class City:
             raise ValueError('attendees should be a non-negative number')
         self.attendees = attendees
 
-        if not isinstance(latitude, float): # type check
-            raise TypeError('The type of latitude should be a Float')
+        # if not isinstance(latitude, float): # type check
+        #     raise TypeError('The type of latitude should be a Float')
         if latitude < -90 or latitude > 90: # value check
             raise ValueError('latitude should be restricted to the -90 to 90')
         self.latitude = latitude
 
-        if not isinstance(longitude, float): # type check
-            raise TypeError('The type of longitude should be a Float')
+        # if not isinstance(longitude, float): # type check
+        #     raise TypeError('The type of longitude should be a Float')
         if longitude < -180 or longitude > 180: # value check
             raise ValueError('longitude should be restricted to the -180 to 180')
         self.longitude = longitude
         
     def distance_to(self, other: 'City') -> float:
+        # If two cities have the same latitudes and longitudes, the distance is zero.
         R = 6371 # approximate radius of the Earth in km
         return float(2 * R * math.asin(math.sqrt((math.sin((math.radians(other.latitude) - math.radians(self.latitude))/2))**2 + math.cos(math.radians(self.latitude)) * math.cos(math.radians(other.latitude)) * (math.sin((math.radians(other.longitude) - math.radians(self.longitude))/2))**2))) # Haversine formula (km)
 
@@ -50,6 +51,7 @@ class City:
 class CityCollection:
 
     def __init__(self, list_of_cities) -> None:
+        # We accept a list of cities as different instances even their information including latitudes and longitudes are all the same.
         self.cities = list_of_cities
 
     def countries(self) -> List[str]:
@@ -105,11 +107,19 @@ class CityCollection:
     def summary(self, city: City):
         # print out the information
         print(f'Host city: {city.city} ({city.country})')
+
         print(f'Total CO2: {int(self.total_co2(city)/1000)} tonnes')
-        print(f'Total attendees travelling to {city.city} from {len(self.cities)} different cities: {self.total_attendees()}')
+        num_of_cities, num_of_attendees = 0, 0
+        for i in self.cities:
+            if i.attendees == 0:
+                continue
+            num_of_cities += 1
+            num_of_attendees += i.attendees
+        print(f'Total attendees travelling to {city.city} from {num_of_cities} different cities: {num_of_attendees}')
 
     def sorted_by_emissions(self) -> List[Tuple[str, float]]:
         # returns a sorted list of city names and CO2 emissions
+        # regard two cities as different instances even their information including latitudes and longitudes are all the same.
         sorted_res = []
         for host in self.cities:
             sorted_res.append((str(host.city),float(self.total_co2(host))))

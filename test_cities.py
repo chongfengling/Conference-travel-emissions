@@ -22,14 +22,14 @@ def test_City_attributes():
         # TypeError: The type of attendees should be a Int
         City('Zurich', 'Switzerland', [1], 90.0, 8.33)
         City('Zurich', 'Switzerland', '1', 90.0, 8.33)
-    with raises(TypeError):
-        # TypeError: The type of latitude should be a Float
-        City('Zurich', 'Switzerland', 1, 1, 8.33)
-        City('Zurich', 'Switzerland', 1, '90', 8.33)
-    with raises(TypeError):
-        # TypeError: The type of longitude should be a Float
-        City('Zurich', 'Switzerland', 1, 90.0, 8)
-        City('Zurich', 'Switzerland', 1, 90.0, [8])
+    # with raises(TypeError):
+    #     # TypeError: The type of latitude should be a Float
+    #     City('Zurich', 'Switzerland', 1, 1, 8.33)
+    #     City('Zurich', 'Switzerland', 1, '90', 8.33)
+    # with raises(TypeError):
+    #     # TypeError: The type of longitude should be a Float
+    #     City('Zurich', 'Switzerland', 1, 90.0, 8)
+    #     City('Zurich', 'Switzerland', 1, 90.0, [8])
 
     with raises(ValueError):
         # ValueError: attendees should be a non-negative number
