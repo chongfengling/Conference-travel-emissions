@@ -19,14 +19,14 @@ class City:
             raise ValueError('attendees should be a non-negative number')
         self.attendees = attendees
 
-        # if not isinstance(latitude, float): # type check
-        #     raise TypeError('The type of latitude should be a Float')
+        if not isinstance(latitude, float): # type check
+            raise TypeError('The type of latitude should be a Float')
         if latitude < -90 or latitude > 90: # value check
             raise ValueError('latitude should be restricted to the -90 to 90')
         self.latitude = latitude
 
-        # if not isinstance(longitude, float): # type check
-        #     raise TypeError('The type of longitude should be a Float')
+        if not isinstance(longitude, float): # type check
+            raise TypeError('The type of longitude should be a Float')
         if longitude < -180 or longitude > 180: # value check
             raise ValueError('longitude should be restricted to the -180 to 180')
         self.longitude = longitude

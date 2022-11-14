@@ -22,14 +22,14 @@ def test_City_attributes():
         # TypeError: The type of attendees should be a Int
         City('Zurich', 'Switzerland', [1], 90.0, 8.33)
         City('Zurich', 'Switzerland', '1', 90.0, 8.33)
-    # with raises(TypeError):
-    #     # TypeError: The type of latitude should be a Float
-    #     City('Zurich', 'Switzerland', 1, 1, 8.33)
-    #     City('Zurich', 'Switzerland', 1, '90', 8.33)
-    # with raises(TypeError):
-    #     # TypeError: The type of longitude should be a Float
-    #     City('Zurich', 'Switzerland', 1, 90.0, 8)
-    #     City('Zurich', 'Switzerland', 1, 90.0, [8])
+    with raises(TypeError):
+        # TypeError: The type of latitude should be a Float
+        City('Zurich', 'Switzerland', 1, 1, 8.33)
+        City('Zurich', 'Switzerland', 1, '90', 8.33)
+    with raises(TypeError):
+        # TypeError: The type of longitude should be a Float
+        City('Zurich', 'Switzerland', 1, 90.0, 8)
+        City('Zurich', 'Switzerland', 1, 90.0, [8])
 
     with raises(ValueError):
         # ValueError: attendees should be a non-negative number
@@ -70,6 +70,9 @@ def test_CityCollection_countries(city_1, city_2):
     [
         (
             City('Zurich', 'Switzerland', 4, 0.0, 0.0), City('San Francisco', 'United States', 1, 1.0, 1.0)
+        ),
+        (
+            City('a', 'A', 4, 0.0, 0.0), City('b', 'A', 1, 50.0, 0.0)
         )
     ]
 )
@@ -82,6 +85,9 @@ def test_CityCollection_creation(city_1, city_2):
     [
         (
             CityCollection([City('Zurich', 'Switzerland', 4, 0.0, 0.0), City('San Francisco', 'United States', 1, 1.0, 1.0)]), 5
+        ),
+        (
+            CityCollection([City('a', 'a1', 4, 0.0, 0.0), City('b', 'b1', 1, 50.0, 0.0), City('c', 'c1', 10, 30.0, 0.0)]), 15
         )
     ]
 )
