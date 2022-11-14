@@ -1,5 +1,4 @@
 from typing import Dict, List, Tuple
-from pytest import raises
 import math
 import matplotlib.pyplot as plt
 
@@ -38,8 +37,9 @@ class City:
 
 
     def co2_to(self, other: 'City') -> float:
+        # the total CO2 emitted by the attendees from current city traveling to host city
         distance = self.distance_to(other) # distant to other city from current city
-        cost_cof = 0
+        cost_cof = 0 # depends on the transportation used
         if 0 <= distance <= 1000:
             cost_cof = 200.0
         elif distance <= 8000:
@@ -49,18 +49,19 @@ class City:
         return float(cost_cof * distance * self.attendees) # total emissions (kg) for researchers from a certain City to travel to a conference held in another City - the host city
 
 class CityCollection:
-
     def __init__(self, list_of_cities) -> None:
         # We accept a list of cities as different instances even their information including latitudes and longitudes are all the same.
         self.cities = list_of_cities
 
     def countries(self) -> List[str]:
+        # return a list of unique countries that the cities in the collection belong to
         list_of_country = []
         for city in self.cities:
             list_of_country.append(city.country)
         return list(set(list_of_country))
 
     def total_attendees(self) -> int:
+        # return the number of all the attendees
         total_attendees = 0
         for city in self.cities:
             total_attendees += city.attendees
@@ -107,7 +108,6 @@ class CityCollection:
     def summary(self, city: City):
         # print out the information
         print(f'Host city: {city.city} ({city.country})')
-
         print(f'Total CO2: {int(self.total_co2(city)/1000)} tonnes')
         num_of_cities, num_of_attendees = 0, 0
         for i in self.cities:
@@ -129,16 +129,18 @@ class CityCollection:
     def plot_top_emitters(self, city: City, n: int = 0, save: bool = False):
         # Plot n countries with the most emissions and summed emissions for the other countries with label “All other countries”. If save is True, save the plot to a file.
         res_co2_by_country = self.co2_by_country(city)
+        # sort by co2 emissions
         sorted_res = sorted(res_co2_by_country.items(), key=lambda x:x[1], reverse=True)
-
+        # create empty list/values to record results
         countries, y, emissions_other= [], [], 0
-
+        # record the n cities with the most emissions
         [[countries.append(country), y.append(emissions/1000)] for (country, emissions) in sorted_res[:n]]
+        # sum up the emissions by the other counties
         for (country, emissions) in sorted_res[n:]:
             emissions_other += emissions
         countries.append('Everywhere else')
         y.append(emissions_other/1000)
-
+        # plot or save the result
         plt.bar(countries, y)
         plt.ylabel('Total emissions (tonnes CO2)')
         plt.xticks(rotation=20, ha='right')
@@ -148,25 +150,3 @@ class CityCollection:
             plt.savefig(f'./{host_name.lower()}.png')
         else:
             plt.show()
-
-
-# import csv
-# from pathlib import Path
-
-
-# def read_attendees_file(filepath: Path) -> CityCollection:
-#     list_of_cities = []
-#     with open(filepath, mode ='r') as f:
-#         data = csv.reader(f)
-#         next(data)
-#         for row in data:
-#             attendees, country, city, latitude, longitude, distance = int(row[0]), str(row[1]), str(row[3]), float(row[4]), float(row[5]), row[6] # type!!!
-#             city = City(city, country, attendees, latitude, longitude)
-#             list_of_cities.append(city)
-#     return CityCollection(list_of_cities)
-
-# conference_city = City('Buenos Aires', 'Argentina', 0, -34.6075616, -58.437076)
-# from pathlib import Path
-# csv_attendees = Path('attendee_locations.csv')
-# cities = read_attendees_file(csv_attendees)
-# cities.plot_top_emitters(conference_city, 7)

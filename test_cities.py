@@ -1,12 +1,10 @@
 from pytest import raises, approx
 import pytest
 from cities import City, CityCollection
-import re
-from pytest import CaptureFixture as capsys
-
 
 def test_City_attributes():
     # create City instance with accepted attributes
+    # could reduce repetition with @pytest.mark.parametrize. We will use this method later to show different ways to construct test functions and easy understanding.
     City('Zurich', 'Switzerland', 1, 47.22, 8.33)
     City('Zurich', 'Switzerland', 1, 90.0, 8.33)
 
@@ -54,6 +52,7 @@ def test_City_transportation():
     assert c_1.co2_to(c_3) / (c_1.attendees * c_1.distance_to(c_3)), 1 == approx(250.0) # c_1 to c_3: short-haul flight
     assert c_2.co2_to(c_3) / (c_2.attendees * c_2.distance_to(c_3)), 1 == approx(200.0) # c_2 to c_3: public transport
 
+# test about method CityCollection.countries()
 @pytest.mark.parametrize(
     'city_1, city_2',
     [
@@ -65,6 +64,7 @@ def test_City_transportation():
 def test_CityCollection_countries(city_1, city_2):
     assert CityCollection([city_1, city_2]).countries().sort() == ['United States', 'Switzerland'].sort()
 
+# test about method CityCollection.cities()
 @pytest.mark.parametrize(
     'city_1, city_2',
     [
@@ -79,7 +79,7 @@ def test_CityCollection_countries(city_1, city_2):
 def test_CityCollection_creation(city_1, city_2):
     assert CityCollection([city_1, city_2]).cities == [city_1, city_2]
 
-
+# test about method CityCollection.total_attendees()
 @pytest.mark.parametrize(
     'collection, expected',
     [
@@ -94,6 +94,7 @@ def test_CityCollection_creation(city_1, city_2):
 def test_CityCollection_total_attendees(collection, expected):
     assert collection.total_attendees() == expected
 
+# test about method CityCollection.total_distance_travel_to()
 @pytest.mark.parametrize(
     'collection, host, expected',
     [
@@ -108,7 +109,7 @@ def test_CityCollection_total_attendees(collection, expected):
 def test_CityCollection_total_distance_travel_to(collection, host, expected):
     assert collection.total_distance_travel_to(host) == approx(expected,rel=1e-3)
 
-
+# test about method CityCollection.travel_by_country()
 @pytest.mark.parametrize(
     'collection, host, expected',
     [
@@ -142,7 +143,7 @@ def test_CityCollection_total_distance_travel_to(collection, host, expected):
 def test_CityCollection_travel_by_country(collection, host, expected):
     assert collection.travel_by_country(host) == expected
 
-
+# test about method CityCollection.total_co2()
 @pytest.mark.parametrize(
     # we do not choose various transportation as it is tested before
     'collection, host, expected',
@@ -172,6 +173,7 @@ def test_CityCollection_travel_by_country(collection, host, expected):
 def test_CityCollection_total_co2(collection, host, expected):
     assert collection.total_co2(host) == expected
 
+# test about method CityCollection.co2_by_country()
 @pytest.mark.parametrize(
     'collection, host, expected',
     [
@@ -207,6 +209,7 @@ def test_CityCollection_total_co2(collection, host, expected):
 def test_CityCollection_co2_by_country(collection, host, expected):
     assert collection.co2_by_country(host) == expected
 
+# test about method CityCollection.sorted_by_emissions()
 @pytest.mark.parametrize(
     'collection, expected',
     [
