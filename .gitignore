@@ -2,8 +2,6 @@ attendee_locations.csv
 Coursework_2_Conference_travel_emissions.pdf
 travelling_to_conferences.ipynb
 __pycache__/cities.cpython-39.pyc
-.gitignore
-.gitignore
 __pycache__/test_cities.cpython-39-pytest-7.1.1.pyc
 .coverage
 tmp/__pycache__/test_cities.cpython-39-pytest-7.1.1.pyc
