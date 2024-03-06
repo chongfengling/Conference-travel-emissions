@@ -1,8 +1,8 @@
 # Conference travel emissions
 
-This is an archive of the completed individual projects from the 2022-2023 "Research Software Engineering with Python" module which was taught by xxx.
+This archive contains the finalized individual project completed during the 2022-2023 session of the "[Research Software Engineering with Python](https://www.ucl.ac.uk/module-catalogue/modules/research-software-engineering-with-python-COMP0233)" module.
 
-`This assignment asks you to create some classes and functions to load and process a CSV dataset. You will also need to create some tests and commit your work as you progress in a git repository`
+`This individual project asks you to create some classes and functions to load and process a CSV dataset. You will also need to create some tests and commit your work as you progress in a git repository`
 
 ----
 
